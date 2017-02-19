@@ -328,9 +328,14 @@ next.onclick = function() {
 zcnext.onclick=function(){
 	if(codenum==yzm.value.trim()){
 		yzm.value="";
-		alert("恭喜您注册成功！");
-		zz.style.display = "none";
-		aut1.style.display = "block";
+		$.get("muser/register?utel="+tel.value+"&upwd="+zcpwd.value,function(data){
+			if(data){
+				alert("恭喜您注册成功！");
+				zz.style.display = "none";
+				aut1.style.display = "block";
+			}
+		});
+		
 	}else{
 		alert("输入验证码错误");
 	}
