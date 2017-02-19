@@ -1841,6 +1841,35 @@ em, i {
     text-align: center;
 	background:url(../images/playbar.png) 0 -457px no-repeat;
 }
+
+#yzm{
+	float:left;
+	width:122px;
+	height:19px;
+	margin-top:20px;
+	margin-bottom:20px;
+	padding:5px 6px 6px;
+	border:1px solid #CDCDCD;
+	border-radius:2px;
+	line-height:18px;
+}
+
+.f-hide{
+	float:right;
+	margin-top:20px;
+	margin-bottom:20px;
+	width:73px;
+	height:31px;
+	border:1px solid #CDCDCD;
+	border-radius:3px;
+	text-align:center;
+	font-size:12px;
+	line-height:29px;
+	color:black;
+	background-color:#fff;
+	cursor: pointer;
+}
+
 audio{
 	display:none;
 		}

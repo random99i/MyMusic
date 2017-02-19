@@ -1116,14 +1116,14 @@
         	<div class="con">
             	<div class="n-log">
                 手机号：<br /><br />
-                	<div><input type="text" class="ipt" placeholder="请输入手机号" /></div><br />
+                	<div><input type="tel" class="ipt" placeholder="请输入手机号" required pattern="^(0|86|17951)?(13[0-9]|15[012356789]|17[0678]|18[0-9]|14[57])[0-9]{8}" id="tel"/></div><br />
                 密码：<br />    
-                	<div class="mgt-1"><input type="password" class="ipt" placeholder="设置登录密码，不少于6位" /></div>
+                	<div class="mgt-1"><input type="password" class="ipt" placeholder="设置登录密码，不少于6位" id="zcpwd"/></div>
                 
                     <div class="err" style="display:none;"><i></i></div>
                     
                     <div class="mgt-2">
-                    	<a href="javascript:void(0)" class="u-dl"><i>下一步</i></a>
+                    	<a href="javascript:void(0)" class="u-dl" id="next"><i>下一步</i></a>
                     </div>
                 </div>
                 <div class="con-b" id="ret">
@@ -1132,6 +1132,36 @@
             </div>
         </div>
         <span class="cls" title="点击关闭" id="cls-2">×</span>
+    </div>
+    <div class="auto-1" style="display:none;">&nbsp;</div>
+    
+    <div class="auto" id="aut-zz" style="top:35px;left:418px;display:none;">
+    	<div class="bar" id="mov-3">
+        	<div class="tt">手机号注册</div>
+        </div>
+        <div class="cnt">
+        	<div class="con">
+            	<div class="n-log">
+            	你的手机号：	<span id="note" style="font-weight: bold;"></span><br />
+              	<p style="margin-top:5px;color: gray;">为了安全,我们会给您发送短信验证码</p>
+                	<div><input type="text" id="yzm" placeholder="请输入验证码"></div>
+                	<button class="f-hide" id="again" >重新发送</button>
+                <br />
+                <br />    
+                	<div class="mgt-1"></div>
+                
+                    <div class="err" style="display:none;"><i></i></div>
+                   
+                    <div class="mgt-2">
+                    	<a href="javascript:void(0)" class="u-dl" id="zcnext"><i>下一步</i></a>
+                    </div>
+                </div>
+                <div class="con-b" id="ret">
+                	<a href="javascript:void(0)" class="con-r" id="ret2">< 返回登录</a>
+                </div>
+            </div>
+        </div>
+        <span class="cls" title="点击关闭" id="cls-3">×</span>
     </div>
     <div class="auto-1" style="display:none;">&nbsp;</div>
 	
@@ -1212,6 +1242,7 @@
         
 </div>
     <a href="" title="回到顶部" id="back"></a>
-    <script src="js/index.js"></script>
+    <script src="js/index.js" type="text/javascript"></script>
+     <script src="js/jquery-1.9.1.js" type="text/javascript"></script>
 </body>
 </html>
