@@ -17,9 +17,16 @@ public class mUserServiceImpl implements mUserService {
 
 	@Override
 	public boolean insertmUser(mUser mUser) {
-		LogManager.getLogger().debug(mUser.toString());
 		int i = mUserMapper.addmUser(mUser);
-		return true;
+		if(i>0){
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public mUser findmUser(mUser mUser) {
+		return mUserMapper.selectmUser(mUser);
 	}
 
 }

@@ -260,6 +260,24 @@ cls1.onclick = function() {
 	aut1.style.display = "none";
 }
 
+//登录
+var dltel=document.getElementById("dltel");
+var dlpwd=document.getElementById("dlpwd");
+var godl=document.getElementById("godl");
+var wdl_head=document.getElementById("wdl_head");
+var dl_head=document.getElementById("dl_head");
+
+godl.onclick=function(){
+	$.get("muser/login?utel="+dltel.value+"&upwd="+dlpwd.value,function(data){
+		if(data){
+			aut1.style.display="none";
+			wdl_head.style.display="none";
+			dl_head.style.display="block";
+		}else{
+			alert("手机号或密码输入错误");
+		}
+	})
+}
 // 注册
 var zc = document.getElementById("aut-zc");
 console.log(zc);
@@ -305,6 +323,8 @@ ret2.onclick = function() {
 }
 var t;
 var codenum = '';
+
+//用户注册
 next.onclick = function() {
 	var mobilevalid = /^(0|86|17951)?(13[0-9]|15[012356789]|17[0678]|18[0-9]|14[57])[0-9]{8}$/;
 	var pwdid = /^[0-9A-Za-z]{6,}$/;
@@ -325,6 +345,7 @@ next.onclick = function() {
 	}
 }
 
+//验证用户注册
 zcnext.onclick=function(){
 	if(codenum==yzm.value.trim()){
 		yzm.value="";
@@ -349,6 +370,7 @@ again.onclick = function() {
 	});
 }
 
+//发送计时
 var miao = 60;
 function jishi() {
 	miao--;
