@@ -343,8 +343,7 @@ next.onclick = function() {
 				codenum = data.trim();
 		});
 	}
-}
-
+	
 //验证用户注册
 zcnext.onclick=function(){
 	if(codenum==yzm.value.trim()){
@@ -563,4 +562,5 @@ document.onkeydown = function(event) {
 	if (e.ctrlKey && keycode == 40) {
 		volu("down");
 	}
+}
 }

@@ -22,11 +22,16 @@ drop table mUser;
 create sequence sq_usid start with 10000
 
 --后台管理
-create table back_master(
-       bm_id int primary key,          --管理员编号
-       bm_name varchar2(20) not null,  --管理员姓名
-       bm_pwd varchar2(40) not null,   --管理员密码
-       bm_1 varchar2(40),              --预留字段1
-          bm_2 varchar2(40),              --预留字段2
-       bm_3 varchar2(40)                --预留字段3
+create table aUser(
+       id int primary key,          --管理员编号
+       username varchar2(20) not null,  --管理员姓名
+       password varchar2(40) not null,   --管理员密码
+       jbphone varchar2(20) not null,
+       auser_1 varchar2(40),              --预留字段1
+          auser_2 varchar2(40)             --预留字段2
 );
+
+insert into aUser values(1,'admin','a','15386001960','','')
+insert into aUser values(2,'random','a','18216062440','','')
+
+select * from  aUser where username='admin' and password='a'

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yc.mp.mapper.aUserMapper">
+
+	<select id="getAUser" parameterType="aUser" resultType="aUser">
+		select * from aUser where username=#{username} and password=#{password}
+	</select>
+
+	<select id="checkPhone" parameterType="aUser" resultType="aUser">
+		select * from aUser where jbphone=#{jbphone}
+	</select>
+	
+	<update id="updatePwd" parameterType="aUser">
+		update aUser set password = #{password} where jbphone=#{jbphone}
+	</update>
+
+</mapper>
