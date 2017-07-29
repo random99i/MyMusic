@@ -32,7 +32,7 @@ public class sendMobileCode {
 		req.setSmsFreeSignName("心悦音乐");
 		req.setSmsParamString("{\"code\":\"" + code + "\",\"product\":\"" + product + "\"}");
 		req.setRecNum(num);
-		req.setSmsTemplateCode("SMS_48005104");
+		req.setSmsTemplateCode("SMS_52150207");
 		try {
 			AlibabaAliqinFcSmsNumSendResponse rsp = client.execute(req);
 			System.out.println(rsp.getBody());

@@ -1,40 +1,7 @@
-//回到顶部
-document.getElementsByClassName("body1")[0].onscroll = function() {
-	var top = document.getElementsByClassName("body1")[0].scrollTop;
-
-	if (top > 0) {
-
-		document.getElementById("back").style.display = "block";
-	} else {
-
-		document.getElementById("back").style.display = "none";
-	}
-}
-
-// 改变nav的背景
-function change_bg(obj) {
-	var a = document.getElementById("nv").getElementsByTagName("a");
-	for (var i = 0; i < a.length; i++) {
-		a[i].className = "";
-	}
-	obj.className = "n_tj";
-}
-
-function change_hd(obj) {
-	var h = document.getElementById("head").getElementsByTagName("a");
-	for (var i = 0; i < h.length; i++) {
-		h[i].className = "";
-	}
-	obj.className = "first_a";
-}
-
-// banner
-var timer;
+/*    特效部分                */
 var index = 0;
-
 function changePic(id) {
 	if (Number(id)) {
-		// 如果传进来的参数是个数字(也就是说鼠标移上某一个li,触发onMouseOver事件)，清除定时器,不再轮播,显示当前图片
 		clearInterval(timer);
 		index = id;
 	} else {
@@ -44,10 +11,10 @@ function changePic(id) {
 	}
 
 	// 设置图片
-	document.getElementById("pic").setAttribute("src",
+	$("#pic").attr("src",
 			"images/banner_" + index + ".jpg");
-	document.getElementById("banner").style.backgroundImage = "url(images/"
-			+ index + ".jpg)";
+	$("#banner").attr("style","background:url(images/"
+			+ index + ".jpg)");
 	// js里面没有background,只有backgroundImage
 
 	// 改变li的class,让其高亮显示
@@ -70,497 +37,249 @@ function start() {
 	timer = window.setInterval("changePic()", 3000);
 }
 
-// 点击切换图片
-var dla = document.getElementById("dla");
-var dra = document.getElementById("dra");
+var aut_login = document.getElementById("aut-phone");	// 登录板块
+var aut_zc = document.getElementById("aut-zc");			// 注册板块
+var aut_zz = document.getElementById("aut-zz");			// 注册验证板块
+var aut_zm = document.getElementById("aut-zm");			// 注册昵称板块
+var mov1 = document.getElementById("mov-1");	
+var mov2 = document.getElementById("mov-2");			
+var mov3 = document.getElementById("mov-3");	
+var mov4 = document.getElementById("mov-4");
+move(mov1,aut_login);
+move(mov2,aut_zc);
+move(mov3,aut_zz);
+move(mov4,aut_zm);
 
-dla.onclick = function() {
-	var pic = document.getElementById("pic");
-	clearInterval(timer);
-	index--;
-	while (index == 0) {
-		index = 8;
-	}
-	pic.setAttribute("src", "images/banner_" + index + ".jpg");
-	document.getElementById("banner").style.backgroundImage = "url(images/"
-			+ index + ".jpg)";
-
-	// 改变li的class,让其高亮显示
-	var ul = document.getElementById("ban_ul");
-	var lis = ul.getElementsByTagName("li");
-	for (var i = 0; i < lis.length; i++) {
-		lis[i].setAttribute("class", "li_out");
-		if (i == index - 1) {
-			lis[i].setAttribute("class", "li_over");
-		}
-	}
-	start();
-}
-
-dra.onclick = function() {
-	var pic = document.getElementById("pic");
-	clearInterval(timer);
-	index++;
-	while (index == 9) {
-		index = 1;
-	}
-	pic.setAttribute("src", "images/banner_" + index + ".jpg");
-	document.getElementById("banner").style.backgroundImage = "url(images/"
-			+ index + ".jpg)";
-
-	// 改变li的class,让其高亮显示
-	var ul = document.getElementById("ban_ul");
-	var lis = ul.getElementsByTagName("li");
-	for (var i = 0; i < lis.length; i++) {
-		lis[i].setAttribute("class", "li_out");
-		if (i == index - 1) {
-			lis[i].setAttribute("class", "li_over");
-		}
-	}
-	start();
-}
-
-// 获焦失焦
-var ipt = document.getElementById("ipt");
-ipt.onfocus = function() {
-	if (ipt.placeholder != "") {
-		ipt.placeholder = "";
-	} else if (ipt.value == "") {
-		onblur();
-	} else {
-		ipt.setAttribute("value", this.value);
-	}
-}
-ipt.onblur = function() {
-	ipt.placeholder = "单曲/歌手/专辑/歌单/MV/用户";
-}
-
-// 新碟上架
-var la = document.getElementById("l_a");
-var ra = document.getElementById("r_a");
-
-la.onclick = function() {
-	var ul = document.getElementById("roll_ul");
-	var sty = getStyle(ul, "transition");
-	ul.style.left = "-645px";
-	console.log(sty);
-	/*
-	 * window.setTimeout(function(){ sty="";
-	 * 
-	 * console.log(sty); ul.style.left="-645px";
-	 * 
-	 * },1000);
-	 */
-}
-ra.onclick = function() {
-	var ul = document.getElementById("roll_ul");
-	var sty = getStyle(ul, "transition");
-	ul.style.left = "0px";
-	console.log(sty);
-	/*
-	 * window.setTimeout(function(){ sty="";
-	 * 
-	 * console.log(sty); ul.style.left="0px";
-	 * 
-	 * },1000);
-	 */
-}
-
-function getStyle(ele, name) {
-	if (ele.currentStyle) { // IE下的处理
-		return ele.currentStyle[name];
-	} else { // 标准浏览器处理
-		return getComputedStyle(ele, false)[name];
-	}
-}
-
-// 登录框
-var other = document.getElementById("other");
-var sj = document.getElementById("sj");
-var IsMousedown, LEFT, TOP, login;
-var mov = document.getElementById("mov");
-console.log(mov);
-mov.onmousedown = function(e) {
-	var e = arguments[0] || window.event;
-	login = document.getElementById("aut");
-	IsMousedown = true;
-	LEFT = e.clientX - parseInt(login.style.left);
-	TOP = e.clientY - parseInt(login.style.top);
-	document.onmousemove = function(e) {
+// 板块移动
+function move(obj1,obj2){
+	obj1.onmousedown = function(e) {
 		var e = arguments[0] || window.event;
-		if (IsMousedown) {
-			login.style.left = e.clientX - LEFT + "px";
-			login.style.top = e.clientY - TOP + "px";
+		IsMousedown = true;
+		LEFT = e.clientX - parseInt(obj2.style.left);
+		TOP = e.clientY - parseInt(obj2.style.top);
+		document.onmousemove = function(e) {
+			var e = arguments[0] || window.event;
+			if (IsMousedown) {
+				obj2.style.left = e.clientX - LEFT + "px";
+				obj2.style.top = e.clientY - TOP + "px";
+			}
+		}
+		document.onmouseup = function() {
+			IsMousedown = false;
 		}
 	}
-	document.onmouseup = function() {
-		IsMousedown = false;
-	}
-}
-var aut = document.getElementById("aut");
-var login = document.getElementById("login");
-var login1 = document.getElementById("login-1");
-var cls = document.getElementById("cls");
-login.onclick = function() {
-	aut.style.display = "block";
-}
-login1.onclick = function() {
-	aut.style.display = "block";
-}
-cls.onclick = function() {
-	aut.style.display = "none";
-}
-sj.onclick = function() {
-	aut.style.display = "none";
-	aut1.style.display = "block";
-}
-other.onclick = function() {
-	aut.style.display = "block";
-	aut1.style.display = "none";
 }
 
-// 手机号登陆
-var sjdl = document.getElementById("sjdl");
-var aut1 = document.getElementById("aut-phone");
-var IsMousedown, LEFT, TOP, login;
-var mov1 = document.getElementById("mov-1");
-var cls1 = document.getElementById("cls-1");
-var wyyx = document.getElementById("wyyx");
-var wydl = document.getElementById("wydl");
-console.log(mov1);
-mov1.onmousedown = function(e) {
-	var e = arguments[0] || window.event;
-	login = document.getElementById("aut-phone");
-	IsMousedown = true;
-	LEFT = e.clientX - parseInt(login.style.left);
-	TOP = e.clientY - parseInt(login.style.top);
-	document.onmousemove = function(e) {
-		var e = arguments[0] || window.event;
-		if (IsMousedown) {
-			login.style.left = e.clientX - LEFT + "px";
-			login.style.top = e.clientY - TOP + "px";
-		}
-	}
-	document.onmouseup = function() {
-		IsMousedown = false;
-	}
-}
-sjdl.onclick = function() {
-	aut.style.display = "none";
-	aut1.style.display = "block";
-}
-wyyx.onclick = function() {
-	aut1.style.display = "block";
-}
-wydl.onclick = function() {
-	aut.style.display = "none";
-	aut1.style.display = "block";
-}
-cls1.onclick = function() {
-	aut1.style.display = "none";
+/* 实现部分 */
+
+// 登录部分
+var login = $("#login");
+var logout = $("#logout");
+var cls1 = $("#cls-1");
+var go_zc = $("#go-zc");
+
+var dltel = $("#dltel");
+var dlpwd = $("#dlpwd");
+var godl = $("#godl");
+
+login.click(function(){	// 打开面板
+	aut_login.style.display="block";
+});
+
+cls1.click(function(){	// 关闭面板
+	aut_login.style.display="none";
+});
+
+go_zc.click(function(){	// 去注册
+	aut_login.style.display="none";
+	aut_zc.style.display="block";
+});
+
+if($("#code").val()!=""){
+	login.attr("style","display:none");
+	$("#info").text($("#code").val());
+	logout.text("exit");
+}else{
+	login.attr("style","display:block");
 }
 
-//登录
-var dltel=document.getElementById("dltel");
-var dlpwd=document.getElementById("dlpwd");
-var godl=document.getElementById("godl");
-var wdl_head=document.getElementById("wdl_head");
-var dl_head=document.getElementById("dl_head");
-
-godl.onclick=function(){
-	$.get("muser/login?utel="+dltel.value+"&upwd="+dlpwd.value,function(data){
-		if(data){
-			aut1.style.display="none";
-			wdl_head.style.display="none";
-			dl_head.style.display="block";
+godl.click(function(){	// 登陆
+	$.get("muser/login?utel=" + dltel.val() + "&upwd=" + dlpwd.val(), function(data) {
+		if (data!=null&data!="") {
+			aut_login.style.display="none";
+			login.attr("style","display:none");
+			$("#info").text(data.uname);
+			logout.text("exit");
 		}else{
-			alert("手机号或密码输入错误");
+			alert("手机号或密码错误");
 		}
 	})
-}
-// 注册
-var zc = document.getElementById("aut-zc");
-console.log(zc);
-var zc1 = document.getElementById("zc-1");
-var zc2 = document.getElementById("zc-2");
-var cls2 = document.getElementById("cls-2");
-var cls3 = document.getElementById("cls-3");
-var ret = document.getElementById("ret1");
-var ret2 = document.getElementById("ret2");
-var next = document.getElementById("next");
-var zz = document.getElementById("aut-zz");
-var tel = document.getElementById("tel");
-var errorr = document.getElementById("err");
-var note = document.getElementById("note");
-var again = document.getElementById("again");
-var zcpwd = document.getElementById("zcpwd");
-var yzm = document.getElementById("yzm");
-var zcnext = document.getElementById("zcnext");
-zc1.onclick = function() {
-	zc.style.display = "block";
-	aut1.style.display = "none";
-	aut.style.display = "none";
-}
-zc2.onclick = function() {
-	zc.style.display = "block";
-	aut1.style.display = "none";
-	aut.style.display = "none";
-}
-cls2.onclick = function() {
-	zc.style.display = "none";
-}
-cls3.onclick = function() {
-	zz.style.display = "none";
-}
-ret.onclick = function() {
-	zc.style.display = "none";
-	aut.style.display = "block";
-}
+});
 
-ret2.onclick = function() {
-	zz.style.display = "none";
-	aut.style.display = "block";
-}
+$("#info").click(function(){
+	location.href="/MusicPro/page/person.jsp";
+})
+
+logout.click(function(){
+	$.get("muser/logout", function(data){
+		location.reload();
+	})
+})
+
+
+// 注册部分
+var next = $("#next");
+var cls2 = $("#cls-2");
+var re_login = $("#re_login");
+var zctel = $("#zctel");
+var zcpwd = $("#zcpwd");
+
+var note = $("#note");
+var again = $("#again");
+
 var t;
 var codenum = '';
 
-//用户注册
-next.onclick = function() {
+cls2.click(function(){	// 关闭面板
+	aut_zc.style.display="none";
+});
+
+re_login.click(function(){	// 返回登录
+	aut_zc.style.display="none";
+	aut_login.style.display="block";
+});
+
+//注册验证部分
+var zcnext = $("#zcnext");
+var cls3 = $("#cls-3");
+var re2_login = $("#re2_login");
+var yzm = $("#yzm");
+
+zcnext.click(function(){	// 关闭面板
+	aut_zz.style.display="none";
+});
+
+cls3.click(function(){	// 关闭面板
+	aut_zz.style.display="none";
+});
+
+re2_login.click(function(){	// 返回登录
+	aut_zz.style.display="none";
+	aut_login.style.display="block";
+});
+
+var isExist=true;
+
+zctel.blur(function(){
+	$.get("muser/isUtelExist?utel="+zctel.val(),function(data){
+		isExist=data;
+	});
+});
+
+next.click(function(){	// 关闭面板
 	var mobilevalid = /^(0|86|17951)?(13[0-9]|15[012356789]|17[0678]|18[0-9]|14[57])[0-9]{8}$/;
 	var pwdid = /^[0-9A-Za-z]{6,}$/;
-	if (!mobilevalid.test(tel.value)) {
-		alert('请输入正确的手机号码！');
-	} else if(!pwdid.test(zcpwd.value)){
+	if (!mobilevalid.test(zctel.val())) {
+		alert('手机格式不正确！');
+	} else if (!pwdid.test(zcpwd.val())) {
 		alert('密码格式不正确！');
-	}else {
-		$.get("send/num?tel="+tel.value, function(data) {
-				zc.style.display = "none";
-				zz.style.display = "block";
-				note.innerHTML = tel.value.substring(0, 3) + "****"
-						+ tel.value.substring(7, 11);
-				t = setInterval(jishi, 1000);
-				again.disabled = true;
-				codenum = data.trim();
+	} else if (isExist) {
+		alert('该手机号已经被注册！');
+	} else {
+		$.get("send/num?tel=" + zctel.val(), function(data) {
+			aut_zc.style.display="none";
+			aut_zz.style.display="block";
+			note.text(zctel.val().substring(0, 3) + "****"+ zctel.val().substring(7, 11));
+			t = setInterval(jishi, 1000);
+			again.attr("disabled",true);
+			codenum = data.trim();
 		});
 	}
 	
-//验证用户注册
-zcnext.onclick=function(){
-	if(codenum==yzm.value.trim()){
-		yzm.value="";
-		$.get("muser/register?utel="+tel.value+"&upwd="+zcpwd.value,function(data){
-			if(data){
-				alert("恭喜您注册成功！");
-				zz.style.display = "none";
-				aut1.style.display = "block";
-			}
-		});
-		
-	}else{
-		alert("输入验证码错误");
-	}
-}
+});
 
-again.onclick = function() {
+again.click(function() {
 	t = setInterval(jishi, 1000);
-	again.disabled = true;
-	$.get("send/num?tel="+tel.value, function(data) {
+	again.attr("disabled",true);
+	$.get("send/num?tel=" + zctel.val(), function(data) {
+		alert(data);
 		codenum = data.trim();
 	});
-}
+});
 
 //发送计时
 var miao = 60;
 function jishi() {
 	miao--;
-	again.innerHTML = miao + "s";
-	again.style = "background-color:#EEEEEE;color:#BBC4D5";
+	again.text(miao + "s");
+	again.attr("style","background-color:#EEEEEE;color:#BBC4D5");
 	if (miao == 0) {
-		again.innerHTML = "重新发送";
-		again.disabled = false;
-		again.style = "background-color:#fff";
+		again.text("重新发送");
+		again.removeAttr("disabled");
+		again.attr("style","background-color:#fff");
 		clearInterval(t);
 		miao = 60;
 	}
 }
 
-var IsMousedown, LEFT, TOP, login;
-var mov2 = document.getElementById("mov-2");
-mov2.onmousedown = function(e) {
-	var e = arguments[0] || window.event;
-	login = document.getElementById("aut-zc");
-	IsMousedown = true;
-	LEFT = e.clientX - parseInt(login.style.left);
-	TOP = e.clientY - parseInt(login.style.top);
-	document.onmousemove = function(e) {
-		var e = arguments[0] || window.event;
-		if (IsMousedown) {
-			login.style.left = e.clientX - LEFT + "px";
-			login.style.top = e.clientY - TOP + "px";
-		}
-	}
-	document.onmouseup = function() {
-		IsMousedown = false;
-	}
-}
-
-// 设置移入移出事件
-var btmbar = document.getElementsByClassName("btmbar")[0];
-btmbar.addEventListener("mouseover", btmover, false);
-// btmbar.onmouseover=btmover;
-function btmover() {
-
-	btmbar.style.bottom = "0px";
-}
-btmbar.addEventListener("mouseout", btmOut, false)
-// btmbar.onmouseout= btmOut;
-function btmOut() {
-	btmbar.style.bottom = "-46px";
-}
-
-// 对锁加点击事件
-var flg = true;
-
-var btn = document.getElementsByClassName("btn")[0];
-btn.addEventListener("click", aaa);
-function aaa() {
-	if (flg) {
-		btn.style['background-position-x'] = '-100px';
-		btmbar.removeEventListener("mouseout", btmOut)
-		btmbar.style.bottom = "0px";
+//验证用户注册
+zcnext.click(function() {
+	if (codenum == yzm.val().trim()) {
+		yzm.val("");
+		$.get("muser/register?utel=" + zctel.val() + "&upwd=" + zcpwd.val(),
+				function(data) {
+					if (data) {
+						alert('恭喜您注册成功！');
+						aut_zz.style.display = "none";
+						aut_zm.style.display = "block";
+					}
+				});
 	} else {
-		btmbar.addEventListener("mouseout", btmOut, false)
-		btn.style['background-position-x'] = '-80px';
+		alert('验证码错误！');
 	}
-	;
-	flg = !flg;
-}
+});
 
-// 音乐播放器
-// 播放/暂停
-function playOrPause(obj) {
-	if (audio.paused) {
-		audio.play();
-		run();
-	} else {
-		audio.pause();
-	}
-}
-function aa() {
-	var bb = document.getElementById("ply1");
-	bb.style['background-position-y'] = '-165px';
-}
-function cc() {
-	var dd = document.getElementById("ply1");
-	dd.style['background-position-y'] = '-204px';
-}
 
-// 上一首和下一首
-function shang(obj) {
-	var ply = document.getElementById("ply1");
-	audio.src = "music/兴子 - 蓝瘦香菇.mp3";
-	audio.play();
-	ply.style['background-position-y'] = '-165px';
-	var rdy = document.getElementsByClassName("rdy")[0];
-	rdy.style.width = "0";
-	run();
-	var na = document.getElementById("na");
-	var st = document.getElementById("st");
-	na.innerText = "蓝瘦香菇";
-	st.innerText = "兴子";
-}
 
-function xia(obj) {
-	var ply = document.getElementById("ply1");
-	audio.src = "music/PICO太郎 - Pen Pineapple apple Pen - Hoaprox remix.mp3";
-	audio.play();
-	ply.style['background-position-y'] = '-165px';
-	var rdy = document.getElementsByClassName("rdy")[0];
-	rdy.style.width = "0";
-	run();
-	var na = document.getElementById("na");
-	var st = document.getElementById("st");
-	na.innerText = " Pen Pineapple apple Pen - Hoaprox remix";
-	st.innerText = "PICO太郎";
-}
+//注册昵称部分
+var zccg = $("#zccg");
+var cls4 = $("#cls-4");
+var re3_login = $("#re3_login");
+var zcnc = $("#zcnc");
 
-// 进度条
-var timeout;
-function run() {
-	if (audio.paused) {
-		setTimeout("run", "100000");
-	} else {
-		var rdy = document.getElementsByClassName("rdy")[0];
-		rdy.style.width = parseInt(rdy.style.width) + 2 + "px";
-		var curr = getCurrentTime();
-		var myem = document.getElementById("myem");
-		myem.innerText = curr;
-		if (rdy.style.width == "100%") {
-			clearInterval(timeout);
-		}
-	}
+cls4.click(function(){	// 关闭面板
+	aut_zm.style.display="none";
+});
 
-}
-timeout = window.setInterval("run()", 1000);
+re3_login.click(function(){	// 返回登录
+	aut_zm.style.display="none";
+	aut_login.style.display="block";
+});
 
-// 获取播放时间
-function getCurrentTime() {
-	var time = audio.currentTime;
-	var minute = parseInt(time / 60);
-	var second = parseInt(time % 60);
-	var t = toTwo(minute) + ":" + toTwo(second);
-	return t;
-}
-function toTwo(n) {
-	return n < 10 ? "0" + n : "" + n;
-}
 
-// 音量
-function vol() {
-	var vo = document.getElementById("volu");
-	if (vo.style.display == "none") {
-		vo.style.display = "block";
-	} else {
-		vo.style.display = "none";
-	}
-}
-function volu(type) {
-	if (type == "up") {
-		var volume = audio.volume + 0.1;
-		if (volume >= 1) {
-			volume = 1;
-		}
-		audio.volume = volume;
-	} else if (type == 'down') {
-		var volume = audio.volume - 0.1;
-		if (volume <= 0) {
-			volume = 0;
-		}
-		audio.volume = volume;
-	}
-	document.getElementById("volu").innerHTML = Math.round(audio.volume * 100);
-}
+zccg.click(function(){	// 注册昵称
+		$.get("muser/isUnameExist?uname="+zcnc.val(),function(data){
+			if(data){
+				alert("昵称已经被使用！");
+			}else{
+				$.get("muser/updateUname?uname="+zcnc.val()+"&utel="+zctel.val(),function(data){
+					if(data){
+						aut_zm.style.display="none";
+						aut_login.style.display="block";
+					}
+				})
+			}
+		})
+});
 
-// 快捷键
-document.onkeydown = function(event) {
-	var e = arguments[0] || window.event;
-	var keycode = e.keyCode;
-	// 空格 -> 播放暂停
-	if (keycode == 32) {
-		playOrPause();
-		var dd = document.getElementById("ply1");
-		dd.style['background-position-y'] = '-204px';
+/***************************************/
+$.get("singer/gethot",function(data){
+	var str="";
+	for(var i=0;i<data.length;i++){
+		str+="<li><a href='singer/detail?s_id="+data[i].s_id+"'>"+data[i].s_name+"</a></li>"
 	}
-	// ctrl + ↑ -> 音量+
-	if (e.ctrlKey && keycode == 38) {
-		volu("up");
-	}
-	if (e.ctrlKey && keycode == 39) {
-		audio.currentTime = audio.currentTime + 5;
-	}
-	// ctrl + ↓ -> 音量-
-	if (e.ctrlKey && keycode == 40) {
-		volu("down");
-	}
-}
-}
+	$("#hotSinger").html(str);
+})
+
+
+

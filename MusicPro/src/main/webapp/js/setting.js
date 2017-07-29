@@ -1,284 +1,191 @@
-//回到顶部
-window.onscroll=function(){
-	var top=document.documentElement.scrollTop ? document.documentElement.scrollTop :document.body.scrollTop;
-	//scrollTop:滚动时隐藏的高度
-	var a=document.getElementById("back");
-	if( top>0 ){
-		a.style.display="block";
-	}else{
-		a.style.display="none";
-	}
-}
-//改变nav的背景
+$("#keep").click(function() {
+	$("#formData").submit();
+})
 
-function change_hd(obj){
-	var h=document.getElementById("head").getElementsByTagName("a");
-	for(var i=0;i<h.length;i++){
-		h[i].className="";
-	}
-	obj.className="first_a";
-}
+$('#dt').datebox({
+	required : true,
+});
 
+var uname = $("#uname").val();
 
-
-//获焦失焦
-var ipt=document.getElementById("ipt");
-ipt.onfocus=function(){
-	if(ipt.placeholder!=""){
-		ipt.placeholder="";
-	}else if(ipt.value==""){
-		onblur();
-	}else{
-		ipt.setAttribute("value",this.value);
-	}
-}
-ipt.onblur=function(){
-	ipt.placeholder="单曲/歌手/专辑/歌单/MV/用户";
-}
-
-
-
-
-
-
-
-
-//设置移入移出事件
-var btmbar=document.getElementsByClassName("btmbar")[0];
-btmbar.addEventListener("mouseover", btmover,false) ;
-//btmbar.onmouseover=btmover;
-	function btmover(){
-
-		btmbar.style.bottom="0px";
-	}
-btmbar.addEventListener("mouseout",btmOut,false)
-//btmbar.onmouseout= btmOut;
-	function btmOut (){
-		btmbar.style.bottom="-46px";
-	}
-
-
-
-//对锁加点击事件
-	var flg=true;
-
-	var btn=document.getElementsByClassName("btn")[0];
-		btn.addEventListener("click",aaa);
-			function aaa(){
-				if(flg){
-					btn.style['background-position-x']='-100px';
-					btmbar.removeEventListener("mouseout",btmOut)
-					btmbar.style.bottom="0px";
-						}else{
-							btmbar.addEventListener("mouseout",btmOut,false)
-							btn.style['background-position-x']='-80px';
-						};
-						flg=!flg;
-		}
-
-//音乐播放器
-		function playOrPause(obj){
-			if(audio.paused){
-				audio.play();
-				run(); 		
-				}else{
-					audio.pause();	
-					}
-			}
-		function aa(){
-			var bb=document.getElementById("ply1");
-			bb.style['background-position-y']='-165px';	
-			}
-		function cc(){
-			var dd=document.getElementById("ply1");
-			dd.style['background-position-y']='-204px';
-			}
-			
-			
-			
-			
-		//上一首和下一首			
-		function shang(obj){
-				var ply=document.getElementById("ply1");
-				audio.src="music/兴子 - 蓝瘦香菇.mp3";
-				audio.play();
-				ply.style['background-position-y']='-165px';
-				var rdy = document.getElementsByClassName("rdy")[0]; 
-				rdy.style.width = "0";
-				run();
-				var na=document.getElementById("na");
-				var st=document.getElementById("st");
-				na.innerText="蓝瘦香菇";
-				st.innerText="兴子";
-			}
-			
-		function xia(obj){
-				var ply=document.getElementById("ply1");
-				audio.src="music/PICO太郎 - Pen Pineapple apple Pen - Hoaprox remix.mp3";
-				audio.play();		
-				ply.style['background-position-y']='-165px';
-				var rdy = document.getElementsByClassName("rdy")[0]; 
-				rdy.style.width = "0";
-				run();
-				var na=document.getElementById("na");
-				var st=document.getElementById("st");
-				na.innerText=" Pen Pineapple apple Pen - Hoaprox remix";
-				st.innerText="PICO太郎";
-		}
-			
-		//进度条
-		var timeout;
-	    function run(){
-			if(audio.paused){
-				setTimeout("run","100000");
-			}else{  
-				var rdy = document.getElementsByClassName("rdy")[0]; 
-				rdy.style.width=parseInt(rdy.style.width) + 2 + "px";  
-				var curr=getCurrentTime();
-				var myem=document.getElementById("myem");
-				myem.innerText=curr;
-				if(rdy.style.width == "100%"){ 
-					clearInterval(timeout);
-				} 
-			}
-			
-		  } 
-		timeout=window.setInterval("run()",1000); 
-		
-		
-		//获取播放时间
-		function getCurrentTime(){
-			var time=audio.currentTime;
-			var minute=parseInt(time/60);
-			var second=parseInt(time%60);
-			var t=toTwo(minute)+":"+toTwo(second);
-			return t;
-		}
-		function toTwo(n){
-			return n<10 ? "0"+n : ""+n;
-		}
-		
-		//音量
-		function vol(){
-			var vo=document.getElementById("volu");
-			if(vo.style.display=="none"){
-				vo.style.display="block";
-			}else{
-				vo.style.display="none";
-			}
-		}
-		function volu(type){
-			if(type=="up"){
-				var volume = audio.volume + 0.1;
-				if(volume >=1 ){
-					volume = 1 ;
+$("#formData").form({
+	url:"muser/modifyinfo",
+	onSubmit: function(){
+		$("#uaddr").val($("#s_province").val()+$("#s_city").val());
+		alert($("#uaddr").val());
+	},
+	success: function(data){
+		if(data){
+			$.get("muser/refind?uname="+uname,function(r){
+				if(r){
+					alert(r);
+					location.href="/MusicPro/page/person.jsp";
 				}
-				audio.volume = volume;
-			}else if(type == 'down'){
-				var volume = audio.volume - 0.1;
-				if(volume <=0 ){
-					volume = 0 ;
-				}
-				audio.volume = volume;
-			}
-			document.getElementById("volu").innerHTML=Math.round(audio.volume*100);
+			})
 		}
-		
-		
-		//快捷键
-		document.onkeydown=function(event){
-			var e=arguments[0]||window.event;
-			var keycode=e.keyCode;
-			//空格  ->   播放暂停
-			if(keycode==32){
-				playOrPause();
-				var dd=document.getElementById("ply1");
-				dd.style['background-position-y']='-204px';
-			}
-			//ctrl + ↑  ->  音量+
-			if(e.ctrlKey && keycode==38){
-				volu("up");
-			}
-			if(e.ctrlKey && keycode==39){
-				audio.currentTime=audio.currentTime+5;
-			}
-			//ctrl + ↓  ->  音量-
-			if(e.ctrlKey && keycode==40){
-				volu("down");
-			}
-		}
-		
-	//140字
-	var txt=document.getElementById("signature");
-		txt.onkeydown=function(){
-			var txt=this.value;
-			if(txt.length>139){
-				alert("error");	
-				}else{
-					document.getElementById("remain").innerHTML=139-txt.length;	
-					}
-			}
+	}
+
+});
+
+function changepic(obj){
+	$("#pic").attr("src",window.URL.createObjectURL(obj.files[0]));
+}
 	
-	//年月日
-	window.onload=function(){
-			//首先，先放年
-			for(var i=new Date().getFullYear();i>=1900;i--){
-				//           id       文本值  value值
-					addOption("birth_year",i,i);	
-				}	
-			
-			//然后，放月
-			for(var i=1;i<=12;i++){
-					addOption("birth_month",i,i);	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/********* 全国二级城市联动 **********/
+function Dsy() {
+	this.Items = {};
+}
+Dsy.prototype.add = function(id, iArray) {
+	this.Items[id] = iArray;
+}
+Dsy.prototype.Exists = function(id) {
+	if (typeof (this.Items[id]) == "undefined")
+		return false;
+	return true;
+}
+
+function change(v) {
+	var str = "0";
+	for (i = 0; i < v; i++) {
+		str += ("_" + (document.getElementById(s[i]).selectedIndex - 1));
+	}
+	;
+	var ss = document.getElementById(s[v]);
+	with (ss) {
+		length = 0;
+		options[0] = new Option(opt0[v], opt0[v]);
+		if (v && document.getElementById(s[v - 1]).selectedIndex > 0 || !v) {
+			if (dsy.Exists(str)) {
+				ar = dsy.Items[str];
+				for (i = 0; i < ar.length; i++) {
+					options[length] = new Option(ar[i], ar[i]);
 				}
-			//先默认每个月都放31天
-			for(var i=1;i<=31;i++){
-					addOption("birth_day",i,i);		
+				if (v) {
+					options[0].selected = true;
 				}
 			}
-			
-			function setDays(year,month,day){
-					var monthDays=[31,28,31,30,31,30,31,31,30,31,30,31];
-					var myyear=year.options[year.selectedIndex].text;
-					var mymon=month.options[month.selectedIndex].text;
-					
-					var num=monthDays[mymon-1];
-					
-					if( mymon==2 && isLeapYear(myyear) ){
-							num++;	
-						}
-						
-						
-					for(var j=day.options.length-1;j>num;j--){
-							day.remove(j);//29						
-						}
-					for(var k=day.options.length;k<num;k++){
-							addOption("birth_day",k,k);	
-						}
-
-				//console.log(myyear+"--"+mymon+"--"+num);
-				}
-			
-		function addOption(id,txt,value){
-				var option=document.createElement("option");
-				option.text=txt;
-				option.value=value;
-				//添加
-				document.getElementById(id).options.add(option);
-			}
-		function isLeapYear(year){
-				return ( (year%4==0 && year%100!=0)  ||year%400==0);	
-			}
-			
-//"回到顶部"按钮的显示或隐藏
-document.getElementsByClassName("body1")[0].onscroll = function () {
-var top=document.getElementsByClassName("body1")[0].scrollTop;
-
-if (top>0) {
-
-		document.getElementById("toTop").style.display = "block";
-	}else{
-
-		document.getElementById("toTop").style.display = "none";
+		}
+		if (++v < s.length) {
+			change(v);
 		}
 	}
+}
+
+var dsy = new Dsy();
+
+dsy.add("0", [ "北京市", "天津市", "上海市", "重庆市", "河北省", "山西省", "内蒙古", "辽宁省", "吉林省",
+		"黑龙江省", "江苏省", "浙江省", "安徽省", "福建省", "江西省", "山东省", "河南省", "湖北省", "湖南省",
+		"广东省", "广西", "海南省", "四川省", "贵州省", "云南省", "西藏", "陕西省", "甘肃省", "青海省",
+		"宁夏", "新疆", "香港", "澳门", "台湾省" ]);
+dsy.add("0_0", [ "东城区", "西城区", "崇文区", "宣武区", "朝阳区", "丰台区", "石景山区", "海淀区",
+		"门头沟区", "房山区", "通州区", "顺义区", "昌平区", "大兴区", "怀柔区", "平谷区", "密云县", "延庆县",
+		"延庆镇" ]);
+dsy.add("0_1", [ "和平区", "河东区", "河西区", "南开区", "河北区", "红桥区", "塘沽区", "汉沽区", "大港区",
+		"东丽区", "西青区", "津南区", "北辰区", "武清区", "宝坻区", "蓟县", "宁河县", "芦台镇", "静海县",
+		"静海镇" ]);
+dsy.add("0_2", [ "黄浦区", "卢湾区", "徐汇区", "长宁区", "静安区", "普陀区", "闸北区", "虹口区", "杨浦区",
+		"闵行区", "宝山区", "嘉定区", "浦东新区", "金山区", "松江区", "青浦区", "南汇区", "奉贤区", "崇明县",
+		"城桥镇" ]);
+dsy.add("0_3", [ "渝中区", "大渡口区", "江北区", "沙坪坝区", "九龙坡区", "南岸区", "北碚区", "万盛区",
+		"双桥区", "渝北区", "巴南区", "万州区", "涪陵区", "黔江区", "长寿区", "合川市", "永川区市", "江津市",
+		"南川市", "綦江县", "潼南县", "铜梁县", "大足县", "荣昌县", "璧山县", "垫江县", "武隆县", "丰都县",
+		"城口县", "梁平县", "开县", "巫溪县", "巫山县", "奉节县", "云阳县", "忠县", "石柱土家族自治县",
+		"彭水苗族土家族自治县", "酉阳土家族苗族自治县", "秀山土家族苗族自治县" ]);
+dsy.add("0_4", [ "石家庄市", "张家口市", "承德市", "秦皇岛市", "唐山市", "廊坊市", "保定市", "衡水市",
+		"沧州市", "邢台市", "邯郸市" ]);
+dsy.add("0_5", [ "太原市", "朔州市", "大同市", "阳泉市", "长治市", "晋城市", "忻州市", "晋中市", "临汾市",
+		"吕梁市", "运城市" ]);
+dsy.add("0_6", [ "呼和浩特市", "包头市", "乌海市", "赤峰市", "通辽市", "呼伦贝尔市", "鄂尔多斯市",
+		"乌兰察布市", "巴彦淖尔市", "兴安盟", "锡林郭勒盟", "阿拉善盟" ]);
+dsy.add("0_7", [ "沈阳市", "朝阳市", "阜新市", "铁岭市", "抚顺市", "本溪市", "辽阳市", "鞍山市", "丹东市",
+		"大连市", "营口市", "盘锦市", "锦州市", "葫芦岛市" ]);
+dsy.add("0_8",
+		[ "长春市", "白城市", "松原市", "吉林市", "四平市", "辽源市", "通化市", "白山市", "延边州" ]);
+dsy.add("0_9", [ "哈尔滨市", "齐齐哈尔市", "七台河市", "黑河市", "大庆市", "鹤岗市", "伊春市", "佳木斯市",
+		"双鸭山市", "鸡西市", "牡丹江市", "绥化市", "大兴安岭地区" ]);
+dsy.add("0_10", [ "南京市", "徐州市", "连云港市", "宿迁市", "淮安市", "盐城市", "扬州市", "泰州市",
+		"南通市", "镇江市", "常州市", "无锡市", "苏州市" ]);
+dsy.add("0_11", [ "杭州市", "湖州市", "嘉兴市", "舟山市", "宁波市", "绍兴市", "衢州市", "金华市",
+		"台州市", "温州市", "丽水市" ]);
+dsy.add("0_12", [ "合肥市", "宿州市", "淮北市", "亳州市", "阜阳市", "蚌埠市", "淮南市", "滁州市",
+		"马鞍山市", "芜湖市", "铜陵市", "安庆市", "黄山市", "六安市", "巢湖市", "池州市", "宣城市" ]);
+dsy.add("0_13",
+		[ "福州市", "南平市", "莆田市", "三明市", "泉州市", "厦门市", "漳州市", "龙岩市", "宁德市" ]);
+dsy.add("0_14", [ "南昌市", "九江市", "景德镇市", "鹰潭市", "新余市", "萍乡市", "赣州市", "上饶市",
+		"抚州市", "宜春市", "吉安市" ]);
+dsy.add("0_15", [ "济南市", "青岛市", "聊城市", "德州市", "东营市", "淄博市", "潍坊市", "烟台市",
+		"威海市", "日照市", "临沂市", "枣庄市", "济宁市", "泰安市", "莱芜市", "滨州市", "菏泽市" ]);
+dsy
+		.add("0_16", [ "郑州市", "开封市", "三门峡市", "洛阳市", "焦作市", "新乡市", "鹤壁市", "安阳市",
+				"濮阳市", "商丘市", "许昌市", "漯河市", "平顶山市", "南阳市", "信阳市", "周口市",
+				"驻马店市", "济源市" ]);
+dsy.add("0_17", [ "武汉市", "十堰市", "襄樊市", "荆门市", "孝感市", "黄冈市", "鄂州市", "黄石市",
+		"咸宁市", "荆州市", "宜昌市", "随州市", "省直辖县级行政单位", "恩施州" ]);
+dsy.add("0_18", [ "长沙市", "张家界市", "常德市", "益阳市", "岳阳市", "株洲市", "湘潭市", "衡阳市",
+		"郴州市", "永州市", "邵阳市", "怀化市", "娄底市", "湘西州" ]);
+dsy.add("0_19", [ "广州市", "深圳市", "清远市", "韶关市", "河源市", "梅州市", "潮州市", "汕头市",
+		"揭阳市", "汕尾市", "惠州市", "东莞市", "珠海市", "中山市", "江门市", "佛山市", "肇庆市", "云浮市",
+		"阳江市", "茂名市", "湛江市" ]);
+dsy.add("0_20", [ "南宁市", "桂林市", "柳州市", "梧州市", "贵港市", "玉林市", "钦州市", "北海市",
+		"防城港市", "崇左市", "百色市", "河池市", "来宾市", "贺州市" ]);
+dsy.add("0_21", [ "海口市", "三亚市", "省直辖行政单位" ]);
+dsy.add("0_22", [ "成都市", "广元市", "绵阳市", "德阳市", "南充市", "广安市", "遂宁市", "内江市",
+		"乐山市", "自贡市", "泸州市", "宜宾市", "攀枝花市", "巴中市", "达州市", "资阳市", "眉山市", "雅安市",
+		"阿坝州", "甘孜州", "凉山州" ]);
+dsy.add("0_23", [ "贵阳市", "六盘水市", "遵义市", "安顺市", "毕节地区", "铜仁地区", "黔东南州", "黔南州",
+		"黔西南州" ]);
+dsy.add("0_24", [ "昆明市", "曲靖市", "玉溪市", "保山市", "昭通市", "丽江市", "思茅市", "临沧市",
+		"德宏州", "怒江州", "迪庆州", "大理州", "楚雄州", "红河州", "文山州", "西双版纳州" ]);
+dsy.add("0_25", [ "拉萨市", "那曲地区", "昌都地区", "林芝地区", "山南地区", "日喀则地区", "阿里地区" ]);
+dsy.add("0_26", [ "西安市", "延安市", "铜川市", "渭南市", "咸阳市", "宝鸡市", "汉中市", "榆林市",
+		"安康市", "商洛市" ]);
+dsy.add("0_27", [ "兰州市", "嘉峪关市", "白银市", "天水市", "武威市", "酒泉市", "张掖市", "庆阳市",
+		"平凉市", "定西市", "陇南市", "临夏州", "甘南州" ]);
+dsy.add("0_28", [ "西宁市", "海东地区", "海北州", "海南州", "黄南州", "果洛州", "玉树州", "海西州" ]);
+dsy.add("0_29", [ "银川市", "石嘴山市", "吴忠市", "固原市", "中卫市" ]);
+dsy.add("0_30", [ "乌鲁木齐市", "克拉玛依市", "自治区直辖县级行政单位", "喀什地区", "阿克苏地区", "和田地区",
+		"吐鲁番地区", "哈密地区", "克孜勒苏柯州", "博尔塔拉州", "昌吉州", "巴音郭楞州", "伊犁州", "塔城地区",
+		"阿勒泰地区" ]);
+dsy.add("0_31", [ "香港特别行政区" ]);
+dsy.add("0_32", [ "澳门特别行政区" ]);
+dsy.add("0_33", [ "台北", "高雄", "台中", "花莲", "基隆", "嘉义", "金门", "连江", "苗栗", "南投",
+		"澎湖", "屏东", "台东", "台南", "桃园", "新竹", "宜兰", "云林", "彰化" ]);
+dsy.add("0", [ "北京市", "天津市", "上海市", "重庆市", "河北省", "山西省", "内蒙古", "辽宁省", "吉林省",
+		"黑龙江省", "江苏省", "浙江省", "安徽省", "福建省", "江西省", "山东省", "河南省", "湖北省", "湖南省",
+		"广东省", "广西", "海南省", "四川省", "贵州省", "云南省", "西藏", "陕西省", "甘肃省", "青海省",
+		"宁夏", "新疆", "香港", "澳门", "台湾省" ]);
+
+var s = ["s_province", "s_city"];
+var opt0 = [ "省份", "地级市" ];
+function _init_area() {
+	for (i = 0; i < s.length - 1; i++) {
+		document.getElementById(s[i]).onchange = new Function("change("
+				+ (i + 1) + ")");
+	}
+	change(0);
+}
+
+_init_area();
+
+/***************************************/

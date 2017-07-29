@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yc.mp.mapper.singerMapper">
+
+	<select id="findAllhot" resultType="Singer">
+		select * from singer where
+		s_hot = 1
+	</select>
+
+	<select id="findSingerbyid" resultType="Singer">
+		select * from singer
+		where s_id = #{s_id}
+	</select>
+
+	<select id="findAll" resultType="Singer">
+		select * from singer
+	</select>
+
+	<select id="findSinger" resultType="Singer">
+		select * from singer where
+		s_zm = #{s_zm}
+	</select>
+
+	<select id="getsong" parameterType="Singer" resultType="Song">
+		select *
+		from song where so_rid = #{s_id}
+	</select>
+
+	<select id="opensong" parameterType="Song" resultType="Song">
+		select *
+		from song where so_id = #{so_id}
+	</select>
+
+	<resultMap type="PaginationBean" id="PaginationBeanMap">
+		<collection property="rows" column="{pageSize=pageSize,pageNum=pageNum}"
+			select="findBean" />
+	</resultMap>
+
+	<select id="listAllSinger" parameterType="PaginationBean"
+		resultMap="PaginationBeanMap">
+		select count(1) total,ceil(count(1)/${pageSize})
+		totalPage,${pageSize} pageSize,${pageNum} pageNum from singer
+	</select>
+
+	<select id="findBean" resultType="Singer">
+		select * from
+		(select m.*,rownum
+		rn from
+		(select * from singer order by 1) m where ${pageSize}*${pageNum}
+		>= rownum) where rn> (${pageNum-1})*${pageSize}
+	</select>
+	
+	<insert id="addSong" parameterType="Song">
+		insert into song values(sq_songid.nextval,#{name},#{so_rid},#{singer},#{album},#{type},#{cover},#{link_url},#{link_lrc},0)
+	</insert>
+</mapper>

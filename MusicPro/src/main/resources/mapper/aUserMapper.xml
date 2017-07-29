@@ -5,11 +5,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.yc.mp.mapper.aUserMapper">
 
 	<select id="getAUser" parameterType="aUser" resultType="aUser">
-		select * from aUser where username=#{username} and password=#{password}
+		select id,username,jbphone from aUser where username=#{username} and password=#{password}
 	</select>
 
 	<select id="checkPhone" parameterType="aUser" resultType="aUser">
-		select * from aUser where jbphone=#{jbphone}
+		select id,username,jbphone from aUser where jbphone=#{jbphone}
 	</select>
 	
 	<update id="updatePwd" parameterType="aUser">

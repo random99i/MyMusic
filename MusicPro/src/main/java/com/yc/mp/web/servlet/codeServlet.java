@@ -30,6 +30,7 @@ public class codeServlet extends HttpServlet {
 		sc.sendMobileCoder(tel);
 		PrintWriter out = response.getWriter();
 		out.println(sc.getCode());
+		//out.println("9527");
 		out.flush();
 		out.close();
 	}

@@ -25,10 +25,10 @@ public class aUserHandler {
 		System.out.println(user);
 		if(user !=null){
 			map.put("loginUser", user);
-			return "redirect:/page/manage.jsp";
+			return "redirect:/back/manage.jsp";
 		}
 		map.put("errorMsg","用户名或密码错误");
-		return "forward:/page/login.jsp";
+		return "forward:/back/login.jsp";
 		
 		
 	}
@@ -45,6 +45,13 @@ public class aUserHandler {
 	public boolean modifypwd(aUser auser){
 		LogManager.getLogger().debug(auser);
 		return aUserService.modifyPwd(auser);
+	}
+	
+	@RequestMapping("/logout")
+	@ResponseBody
+	public boolean logout(ModelMap map){
+		map.put("loginUser", "");
+		return true;
 	}
 	
 

@@ -81,7 +81,7 @@ function gg(){
 	$.get("auser/modifypwd?jbphone="+tel+"&password="+password.val(),function(data){
 		if(data){
 			$.messager.alert('温馨提示','密码修改成功，即将跳转至登录界面','info');
-			location.href="http://localhost:8080/MusicPro/page/login.jsp";
+			location.href="http://localhost:8080/MusicPro/back/login.jsp";
 		}
 	});
 }

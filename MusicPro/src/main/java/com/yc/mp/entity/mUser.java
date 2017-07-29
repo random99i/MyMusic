@@ -1,6 +1,5 @@
 package com.yc.mp.entity;
 
-import java.util.Date;
 
 public class mUser {
 	private Integer usid;
@@ -9,9 +8,10 @@ public class mUser {
 	private String upwd;
 	private String unote;
 	private String usex;
-	private Date ubri;
+	private String ubri;
 	private String uaddr;
 	private String upic;
+	private Integer uex_1;
 
 	public mUser(String utel, String upwd) {
 		super();
@@ -71,11 +71,11 @@ public class mUser {
 		this.usex = usex;
 	}
 
-	public Date getUbri() {
+	public String getUbri() {
 		return ubri;
 	}
 
-	public void setUbri(Date ubri) {
+	public void setUbri(String ubri) {
 		this.ubri = ubri;
 	}
 
@@ -94,11 +94,23 @@ public class mUser {
 	public void setUpic(String upic) {
 		this.upic = upic;
 	}
+	
+	
+
+	public Integer getUex_1() {
+		return uex_1;
+	}
+
+	public void setUex_1(Integer uex_1) {
+		this.uex_1 = uex_1;
+	}
 
 	@Override
 	public String toString() {
 		return "mUser [usid=" + usid + ", uname=" + uname + ", utel=" + utel + ", upwd=" + upwd + ", unote=" + unote
-				+ ", usex=" + usex + ", ubri=" + ubri + ", uaddr=" + uaddr + ", upic=" + upic + "]";
+				+ ", usex=" + usex + ", ubri=" + ubri + ", uaddr=" + uaddr + ", upic=" + upic + ", uex_1=" + uex_1
+				+ "]";
 	}
+
 
 }

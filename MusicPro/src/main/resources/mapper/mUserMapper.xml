@@ -5,10 +5,103 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.yc.mp.mapper.mUserMapper">
 
 	<insert id="addmUser" parameterType="mUser">
-		insert into mUser(usid,utel,upwd) values(sq_usid.nextval,#{utel},#{upwd}) 
+		insert into
+		mUser(usid,utel,upwd) values(sq_usid.nextval,#{utel},#{upwd})
 	</insert>
-	
+
 	<select id="selectmUser" parameterType="mUser" resultType="mUser">
-		select * from mUser where utel = #{utel} and upwd = #{upwd}
+		select * from mUser where utel = #{utel} and upwd = #{upwd} and uex_1
+		= 1
 	</select>
+
+	<select id="selectUtel" parameterType="mUser" resultType="mUser">
+		select
+		* from mUser where utel = #{utel}
+	</select>
+
+	<select id="selectUname" parameterType="mUser" resultType="mUser">
+		select * from mUser where uname = #{uname}
+	</select>
+
+	<update id="modifyUname" parameterType="mUser">
+		update mUser set uname =
+		#{uname} where utel = #{utel}
+	</update>
+
+	<select id="findDynamic" parameterType="mUser" resultType="Dynamic">
+		select * from dynamic where d_usid = #{usid} order by d_id desc
+	</select>
+
+	<select id="selectfollow" parameterType="mUser" resultType="mUser">
+		select m.usid,m.uname,m.upic from relationship r inner join muser m on
+		m.usid = r.re_focus inner join muser mu on mu.usid = r.re_fans where
+		r.re_fans = #{usid}
+	</select>
+
+	<select id="selectfans" parameterType="mUser" resultType="mUser">
+		select
+		mu.usid,mu.uname,mu.upic from relationship r inner join muser m on
+		m.usid = r.re_focus inner join muser mu on mu.usid = r.re_fans where
+		r.re_focus = #{usid}
+	</select>
+
+	<update id="updatemUser" parameterType="mUser">
+		update mUser set
+		unote=#{unote},usex=#{usex},ubri=#{ubri},uaddr=#{uaddr},upic=#{upic}
+		where uname =#{uname}
+	</update>
+
+	<select id="getmUser" parameterType="mUser" resultType="mUser">
+		select
+		usid,uname,unote,usex,ubri,uaddr,upic from mUser where usid = #{usid}
+	</select>
+
+	<select id="ismyfollow" parameterType="String" resultType="mUser">
+		select m.usid,m.uname,m.upic from relationship r inner join muser m on
+		m.usid = r.re_focus inner join muser mu on mu.usid = r.re_fans where
+		r.re_focus = #{0} and r.re_fans = #{1}
+	</select>
+
+	<insert id="insertfollow" parameterType="String">
+		insert into relationship
+		values(#{0},#{1})
+	</insert>
+
+	<delete id="deletefollow" parameterType="String">
+		delete relationship
+		where re_focus = #{0} and re_fans = #{1}
+	</delete>
+
+	<insert id="addDynamic" parameterType="Dynamic">
+		insert into dynamic
+		values(seq_dyid.nextval,#{d_usid},#{d_thing},#{d_date})
+	</insert>
+
+	<delete id="delDynamic" parameterType="Dynamic">
+		delete dynamic where d_id
+		= #{d_id}
+	</delete>
+	<resultMap type="PaginationBean" id="PaginationBeanMap">
+		<collection property="rows" column="{pageSize=pageSize,pageNum=pageNum}"
+			select="findBean" />
+	</resultMap>
+
+	<select id="listAllUser" parameterType="PaginationBean"
+		resultMap="PaginationBeanMap">
+		select count(1) total,ceil(count(1)/${pageSize})
+		totalPage,${pageSize} pageSize,${pageNum} pageNum from muser
+	</select>
+
+	<select id="findBean" resultType="mUser">
+		select * from
+		(select m.*,rownum rn from
+		(select * from muser order by 1) m where ${pageSize}*${pageNum} >= rownum and
+		uex_1 = 1) where rn> (${pageNum-1})*${pageSize}
+	</select>
+
+	<update id="archive" parameterType="mUser">
+		update mUser set uex_1 = 0
+		where usid = #{usid}
+	</update>
+
 </mapper>
